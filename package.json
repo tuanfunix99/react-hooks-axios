@@ -1,15 +1,19 @@
 {
-  "name": "React-hooks-axios",
-  "version": "1.0.0",
+  "name": "react-hooks-axios",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf dist",
     "build": "npm run clean && tsc && cp package.json README.md ./dist"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tuanfunix99/react-hooks-axios"
+  },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^17.0.35",
     "@types/react": "^18.0.9",
