@@ -3,8 +3,8 @@ import { AxiosReqConfig, MutationMethod, QueryMethod } from "../base";
 
 type Mutation = (
   url: string,
+  body: any,
   method?: MutationMethod,
-  value?: any,
   config?: AxiosReqConfig
 ) => Promise<any>;
 

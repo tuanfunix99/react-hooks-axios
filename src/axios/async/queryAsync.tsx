@@ -1,7 +1,5 @@
 import { AxiosRequestConfig } from "axios";
 import {
-  AsyncReturnError,
-  AsyncThrowError,
   AxiosReqConfig,
   QueryMethod,
 } from "../base";
