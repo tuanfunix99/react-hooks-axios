@@ -6,7 +6,19 @@ import {
   FunctionAsyncThrowError,
 } from "../utils/functionAsync";
 
-function mutationAsync(): any {
+type MutationAsyncFunc = (
+  url: string,
+  method?: MutationMethod,
+  value?: any,
+  config?: AxiosReqConfig
+) => Promise<any>;
+
+export type MutationAsyncReturn = {
+  mutationAsyncReturnError: MutationAsyncFunc;
+  mutationAsyncThrowError: MutationAsyncFunc;
+};
+
+function mutationAsync(): MutationAsyncReturn {
   const axios = returnAxios();
 
   const mutationAsyncReturnError = (

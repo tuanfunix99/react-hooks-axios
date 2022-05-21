@@ -1,14 +1,20 @@
 import { useState } from "react";
 import { useAxiosAsync } from "../async";
 import Transaction from "./Transaction";
-import { FunctionCallback, FunctionChild } from "../base";
 
-type T = {
+type Return = {
   onRun: (transaction: Transaction) => Promise<void>;
   onError?: (error: any) => void;
 };
 
-export const useAxiosTransaction: FunctionCallback<T> = () => {
+type FunctionChild<T> = (args: T) => Promise<void>;
+
+type FunctionTransaction<T> = () => [
+  func: FunctionChild<T>,
+  process: { loading?: boolean; error?: any }
+];
+
+export const useAxiosTransaction: FunctionTransaction<Return> = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -18,7 +24,7 @@ export const useAxiosTransaction: FunctionCallback<T> = () => {
   const query = queryAsyncThrowError;
   const mutation = mutationAsyncThrowError;
 
-  const transactionFunc: FunctionChild<T> = async ({ onRun, onError }) => {
+  const transactionFunc: FunctionChild<Return> = async ({ onRun, onError }) => {
     setLoading(true);
     try {
       await onRun(new Transaction(axios, query, mutation));

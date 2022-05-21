@@ -1,50 +1,50 @@
 import { useState } from "react";
 import { AxiosReqConfig, MutationMethod } from "../base";
 import returnAxios from "../returnAxios";
+import {
+  FunctionCallback,
+  FunctionCallbackReturn,
+  ArgsCallback,
+} from "../base";
 
-function MutationCallback(
+interface Args extends ArgsCallback<MutationMethod> {
+  body: any;
+}
+
+const MutationCallback: FunctionCallback<MutationMethod, Args> = (
   url: string,
   config?: AxiosReqConfig
-): [
-  mutationFunc: (input: {
-    method?: MutationMethod;
-    body?: any;
-    onComplete?: (data: any) => void;
-    onError?: (err: any) => void;
-  }) => void,
-  process: { loading: boolean; error: any; data: any }
-] {
+) => {
   const axios = returnAxios();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
   const [data, setData] = useState(null);
 
-  function mutationFunc(input: {
-    method?: MutationMethod;
-    body?: any;
-    onComplete?: (data: any) => void;
-    onError?: (err: Array<any>) => void;
-  }) {
-    const { body, onComplete, onError, method } = input;
+  const mutationFunc: FunctionCallbackReturn<Args> = ({
+    method,
+    body,
+    onCompleted,
+    onError,
+  }) => {
     setLoading(true);
     axios[method ?? "post"](url, body ?? {}, config)
       .then(({ data }) => {
         setLoading(false);
         setData(data);
-        if (onComplete) {
-          onComplete(data);
+        if (onCompleted) {
+          onCompleted(data);
         }
       })
-      .catch((err) => {
+      .catch((error) => {
         setLoading(false);
-        setError(err.response?.data);
+        setError(error.response?.data);
         if (onError) {
-          onError(err.response?.data);
+          onError(error.response?.data);
         }
       });
-  }
+  };
 
   return [mutationFunc, { loading, data, error }];
-}
+};
 
 export default MutationCallback;

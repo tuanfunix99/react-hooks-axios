@@ -6,7 +6,18 @@ import {
   FunctionAsyncThrowError,
 } from "../utils/functionAsync";
 
-function queryAsync(): any {
+type QueryAsyncFunc = (
+  url: string,
+  method?: QueryMethod,
+  config?: AxiosReqConfig
+) => Promise<any>;
+
+export type QueryAsyncReturn = {
+  queryAsyncReturnError: QueryAsyncFunc;
+  queryAsyncThrowError: QueryAsyncFunc;
+};
+
+function queryAsync(): QueryAsyncReturn {
   const axios = ReturnAxios();
   const queryAsyncReturnError = (
     url: string,
@@ -28,7 +39,7 @@ function queryAsync(): any {
       return data;
     });
 
-    return { queryAsyncReturnError, queryAsyncThrowError }
+  return { queryAsyncReturnError, queryAsyncThrowError };
 }
 
 export default queryAsync;

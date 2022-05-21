@@ -11,9 +11,17 @@ export interface AxiosReqConfig {
   proxy?: AxiosProxyConfig | false;
 }
 
-export type FunctionChild<T> = (args: T) => Promise<void>;
+export interface ArgsCallback<T> {
+  method?: T;
+  onCompleted?: (data: any) => void;
+  onError?: (error: any) => void;
+}
 
-export type FunctionCallback<T> = () => [
-  func: FunctionChild<T>,
+export type FunctionCallbackReturn<T> = (args: T) => void;
+
+export type FunctionCallback<K, T extends ArgsCallback<K>> = (
+  ...input: any[]
+) => [
+  func: FunctionCallbackReturn<T>,
   process: { loading?: boolean; error?: any; data?: any }
 ];
