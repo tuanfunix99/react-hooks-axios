@@ -1,4 +1,4 @@
-interface Return<T> {
+export interface Return<T> {
   data: T;
   error: any;
 }

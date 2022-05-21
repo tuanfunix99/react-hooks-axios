@@ -11,7 +11,9 @@ interface Args extends ArgsCallback<MutationMethod> {
   body: any;
 }
 
-const MutationCallback: FunctionCallback<MutationMethod, Args> = (
+export type MutationFunctionCallback = FunctionCallback<MutationMethod, Args>;
+
+const MutationCallback: MutationFunctionCallback = (
   url: string,
   config?: AxiosReqConfig
 ) => {

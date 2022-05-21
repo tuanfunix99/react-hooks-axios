@@ -7,10 +7,15 @@ import {
   ArgsCallback,
 } from "../base";
 
-const QueryCallback: FunctionCallback<
+export type QueryFunctionCallback = FunctionCallback<
   QueryMethod,
   ArgsCallback<QueryMethod>
-> = (url: string, config?: AxiosReqConfig) => {
+>;
+
+const QueryCallback: QueryFunctionCallback = (
+  url: string,
+  config?: AxiosReqConfig
+) => {
   const axios = returnAxios();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<any>([]);

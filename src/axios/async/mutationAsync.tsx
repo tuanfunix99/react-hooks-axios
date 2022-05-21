@@ -4,18 +4,27 @@ import returnAxios from "../returnAxios";
 import {
   FunctionAsyncReturnError,
   FunctionAsyncThrowError,
+  Return,
 } from "../utils/functionAsync";
 
-type MutationAsyncFunc = (
+type MutationAsyncReturnError = (
   url: string,
+  body?: any,
   method?: MutationMethod,
-  value?: any,
+  config?: AxiosReqConfig
+) => Promise<Partial<Return<any>>>;
+
+type MutationAsyncThrowError = (
+  url: string,
+  body?: any,
+  method?: MutationMethod,
   config?: AxiosReqConfig
 ) => Promise<any>;
 
+
 export type MutationAsyncReturn = {
-  mutationAsyncReturnError: MutationAsyncFunc;
-  mutationAsyncThrowError: MutationAsyncFunc;
+  mutationAsyncReturnError: MutationAsyncReturnError;
+  mutationAsyncThrowError: MutationAsyncThrowError;
 };
 
 function mutationAsync(): MutationAsyncReturn {
@@ -23,23 +32,23 @@ function mutationAsync(): MutationAsyncReturn {
 
   const mutationAsyncReturnError = (
     url: string,
+    body?: any,
     method?: MutationMethod,
-    value?: any,
     config?: AxiosReqConfig
   ) =>
     FunctionAsyncReturnError<any>(async () => {
-      const { data } = await axios[method ?? "post"](url, value ?? {}, config);
+      const { data } = await axios[method ?? "post"](url, body ?? {}, config);
       return data;
     });
 
   const mutationAsyncThrowError = (
     url: string,
+    body?: any,
     type?: MutationMethod,
-    value?: any,
     config?: AxiosRequestConfig
   ) =>
     FunctionAsyncThrowError<any>(async () => {
-      const { data } = await axios[type ?? "post"](url, value ?? {}, config);
+      const { data } = await axios[type ?? "post"](url, body ?? {}, config);
       return data;
     });
 

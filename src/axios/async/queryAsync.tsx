@@ -1,20 +1,32 @@
 import { AxiosRequestConfig } from "axios";
-import { AxiosReqConfig, QueryMethod } from "../base";
+import {
+  AsyncReturnError,
+  AsyncThrowError,
+  AxiosReqConfig,
+  QueryMethod,
+} from "../base";
 import ReturnAxios from "../returnAxios";
 import {
   FunctionAsyncReturnError,
   FunctionAsyncThrowError,
+  Return,
 } from "../utils/functionAsync";
 
-type QueryAsyncFunc = (
+type QueryAsyncReturnError = (
+  url: string,
+  method?: QueryMethod,
+  config?: AxiosReqConfig
+) => Promise<Partial<Return<any>>>;
+
+type QueryAsyncThrowError = (
   url: string,
   method?: QueryMethod,
   config?: AxiosReqConfig
 ) => Promise<any>;
 
 export type QueryAsyncReturn = {
-  queryAsyncReturnError: QueryAsyncFunc;
-  queryAsyncThrowError: QueryAsyncFunc;
+  queryAsyncReturnError: QueryAsyncReturnError;
+  queryAsyncThrowError: QueryAsyncThrowError;
 };
 
 function queryAsync(): QueryAsyncReturn {
