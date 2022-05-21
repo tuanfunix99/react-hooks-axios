@@ -127,10 +127,10 @@ useAxiosTransaction: useTransaction group multiple operations into a single tran
 ```typescript
 import { useAxiosTransaction } from "react-hooks-axios";
 
-const [onTransition, { loading }] = useAxiosTransaction();
+const [onTransaction, { loading }] = useAxiosTransaction();
 
-const onClickHandler = async () => {
-  onTransition({
+const clickHandler = async () => {
+  onTransaction({
     async onRun({ mutation, query }) {
       const body = {
         id: 4,
