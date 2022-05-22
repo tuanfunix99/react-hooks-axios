@@ -16,6 +16,8 @@ index.tsx
 import { AxiosProvider } from "react-hooks-axios";
 import axios from "axios";
 
+axios.defaults.baseURL = "http://localhost:8080";
+
 root.render(
   <AxiosProvider axios={axios}>
     <App />
