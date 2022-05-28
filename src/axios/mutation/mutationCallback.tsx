@@ -29,21 +29,40 @@ const MutationCallback: MutationFunctionCallback = (
     onError,
   }) => {
     setLoading(true);
-    axios[method ?? "post"](url, body ?? {}, config)
-      .then(({ data }) => {
-        setLoading(false);
-        setData(data);
-        if (onCompleted) {
-          onCompleted(data);
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        setError(error.response?.data);
-        if (onError) {
-          onError(error.response?.data);
-        }
-      });
+    if (method && method === "delete") {
+      axios
+        .delete(url, config)
+        .then(({ data }) => {
+          setLoading(false);
+          setData(data);
+          if (onCompleted) {
+            onCompleted(data);
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          setError(error.response?.data);
+          if (onError) {
+            onError(error.response?.data);
+          }
+        });
+    } else {
+      axios[method ?? "post"](url, body ?? {}, config)
+        .then(({ data }) => {
+          setLoading(false);
+          setData(data);
+          if (onCompleted) {
+            onCompleted(data);
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          setError(error.response?.data);
+          if (onError) {
+            onError(error.response?.data);
+          }
+        });
+    }
   };
 
   return [mutationFunc, { loading, data, error }];

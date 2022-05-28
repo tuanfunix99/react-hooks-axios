@@ -1,16 +1,15 @@
 import { AxiosStatic } from "axios";
-import { AxiosReqConfig, MutationMethod, QueryMethod } from "../base";
+import { AxiosReqConfig, MutationMethod } from "../base";
 
 type Mutation = (
   url: string,
-  body: any,
   method?: MutationMethod,
+  body?: any,
   config?: AxiosReqConfig
 ) => Promise<any>;
 
 type Query = (
   url: string,
-  method?: QueryMethod,
   config?: AxiosReqConfig
 ) => Promise<any>;
 

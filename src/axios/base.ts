@@ -1,8 +1,8 @@
 import { AxiosProxyConfig, AxiosRequestHeaders } from "axios";
 
-export type QueryMethod = "get" | "delete";
+export type QueryMethod = "get";
 
-export type MutationMethod = "post" | "put" | "patch";
+export type MutationMethod = "post" | "put" | "patch" | "delete";
 
 export interface AxiosReqConfig {
   baseURL?: string;

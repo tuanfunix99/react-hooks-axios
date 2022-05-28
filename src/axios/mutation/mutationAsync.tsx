@@ -9,18 +9,17 @@ import {
 
 type MutationAsyncReturnError = (
   url: string,
-  body?: any,
   method?: MutationMethod,
+  body?: any,
   config?: AxiosReqConfig
 ) => Promise<Partial<Return<any>>>;
 
 type MutationAsyncThrowError = (
   url: string,
-  body?: any,
   method?: MutationMethod,
+  body?: any,
   config?: AxiosReqConfig
 ) => Promise<any>;
-
 
 export type MutationAsyncReturn = {
   mutationAsyncReturnError: MutationAsyncReturnError;
@@ -32,23 +31,31 @@ function mutationAsync(): MutationAsyncReturn {
 
   const mutationAsyncReturnError = (
     url: string,
-    body?: any,
     method?: MutationMethod,
+    body?: any,
     config?: AxiosReqConfig
   ) =>
     FunctionAsyncReturnError<any>(async () => {
+      if (method && method === "delete") {
+        const { data } = await axios.delete(url, config);
+        return data;
+      }
       const { data } = await axios[method ?? "post"](url, body ?? {}, config);
       return data;
     });
 
   const mutationAsyncThrowError = (
     url: string,
+    method?: MutationMethod,
     body?: any,
-    type?: MutationMethod,
     config?: AxiosRequestConfig
   ) =>
     FunctionAsyncThrowError<any>(async () => {
-      const { data } = await axios[type ?? "post"](url, body ?? {}, config);
+      if (method && method === "delete") {
+        const { data } = await axios.delete(url, config);
+        return data;
+      }
+      const { data } = await axios[method ?? "post"](url, body ?? {}, config);
       return data;
     });
 

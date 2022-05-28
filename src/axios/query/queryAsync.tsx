@@ -1,7 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import {
   AxiosReqConfig,
-  QueryMethod,
 } from "../base";
 import ReturnAxios from "../returnAxios";
 import {
@@ -12,13 +11,11 @@ import {
 
 type QueryAsyncReturnError = (
   url: string,
-  method?: QueryMethod,
   config?: AxiosReqConfig
 ) => Promise<Partial<Return<any>>>;
 
 type QueryAsyncThrowError = (
   url: string,
-  method?: QueryMethod,
   config?: AxiosReqConfig
 ) => Promise<any>;
 
@@ -31,21 +28,19 @@ function queryAsync(): QueryAsyncReturn {
   const axios = ReturnAxios();
   const queryAsyncReturnError = (
     url: string,
-    method?: QueryMethod,
     config?: AxiosReqConfig
   ) =>
     FunctionAsyncReturnError<any>(async () => {
-      const { data } = await axios[method ?? "get"](url, config);
+      const { data } = await axios.get(url, config);
       return data;
     });
 
   const queryAsyncThrowError = (
     url: string,
-    type?: QueryMethod,
     config?: AxiosRequestConfig
   ) =>
     FunctionAsyncThrowError<any>(async () => {
-      const { data } = await axios[type ?? "get"](url, config);
+      const { data } = await axios.get(url, config);
       return data;
     });
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useAxiosAsync } from "../async";
+import { useMutation } from '../mutation';
+import { useQuery } from '../query';
 import Transaction from "./Transaction";
 
 type Return = {
@@ -14,12 +15,12 @@ type FunctionTransaction<T> = () => [
   process: { loading?: boolean; error?: any }
 ];
 
-export const useAxiosTransaction: FunctionTransaction<Return> = () => {
+export const useTransaction: FunctionTransaction<Return> = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const { axios, queryAsyncThrowError, mutationAsyncThrowError } =
-    useAxiosAsync();
+  const { axios,  mutationAsyncThrowError } = useMutation();
+  const { queryAsyncThrowError } = useQuery();
 
   const query = queryAsyncThrowError;
   const mutation = mutationAsyncThrowError;

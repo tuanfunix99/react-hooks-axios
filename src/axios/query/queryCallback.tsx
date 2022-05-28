@@ -18,16 +18,15 @@ const QueryCallback: QueryFunctionCallback = (
 ) => {
   const axios = returnAxios();
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<any>([]);
+  const [error, setError] = useState<any>(null);
   const [data, setData] = useState(null);
 
   const queryFunc: FunctionCallbackReturn<ArgsCallback<QueryMethod>> = ({
-    method,
     onCompleted,
     onError,
   }) => {
     setLoading(true);
-    axios[method ?? "get"](url, config)
+    axios.get(url, config)
       .then(({ data }) => {
         setLoading(false);
         setData(data);
@@ -37,14 +36,14 @@ const QueryCallback: QueryFunctionCallback = (
       })
       .catch((error) => {
         setLoading(false);
-        setErrors(error.response?.data);
+        setError(error.response?.data);
         if (onError) {
           onError(error.response?.data);
         }
       });
   };
 
-  return [queryFunc, { loading, data, errors }];
+  return [queryFunc, { loading, data, error }];
 };
 
 export default QueryCallback;
